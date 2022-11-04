@@ -8,12 +8,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody PlayerBody;
+    private float distToGround;
+    private Collider m_Collider;
+    [SerializeField] private Joystick joystick;
     [SerializeField] private float Speed;
     [SerializeField] private float Jumpforce;
+    [SerializeField] private bool isJumping;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_Collider = GetComponent<Collider>();
+        distToGround = m_Collider.bounds.extents.y;
         PlayerBody = gameObject.GetComponent<Rigidbody>();
     }
 
@@ -23,14 +29,19 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
     }
 
+    bool IsGrounded() {
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+    }
+
+    public void setIsJumping(bool value){
+        isJumping = value;
+    }
+
     void MovePlayer()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = joystick.Horizontal;
+        float vertical = joystick.Vertical;
         Vector3 playerMovementInput = new Vector3(horizontal, 0f, vertical);
-
-        
-
 
         if (playerMovementInput != Vector3.zero)
         {
@@ -46,8 +57,9 @@ public class PlayerController : MonoBehaviour
 
         PlayerBody.MovePosition(transform.position + (transform.forward * playerMovementInput.magnitude) * Speed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isJumping && IsGrounded())
         {
+            setIsJumping(false);
             PlayerBody.AddForce(Vector3.up * Jumpforce, ForceMode.Impulse);
         }
 
