@@ -73,3 +73,5 @@ crashlytics-build.properties
 
 user.keystore
 *_BackUpThisFolder_ButDontShipItWithYourGame
+*.aab
+*.apk
