@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        float horizontal = joystick.Horizontal;
-        float vertical = joystick.Vertical;
+        float horizontal = (Application.platform == RuntimePlatform.Android) ? joystick.Horizontal : Input.GetAxis("Horizontal");
+        float vertical = (Application.platform == RuntimePlatform.Android) ? joystick.Vertical : Input.GetAxis("Vertical");
         Vector3 playerMovementInput = new Vector3(horizontal, 0f, vertical);
 
         if (playerMovementInput != Vector3.zero)
@@ -56,6 +56,10 @@ public class PlayerController : MonoBehaviour
         }
 
         PlayerBody.MovePosition(transform.position + (transform.forward * playerMovementInput.magnitude) * Speed * Time.deltaTime);
+        
+        if(Input.GetKeyDown(KeyCode.Space)){
+            setIsJumping(true);
+        }
 
         if (isJumping && IsGrounded())
         {

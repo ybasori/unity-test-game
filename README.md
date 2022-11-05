@@ -1,6 +1,5 @@
 # unity-test-game
 
-- URP
 - isometric
 - probuilder
 - player with rigidbody
