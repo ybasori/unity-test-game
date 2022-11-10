@@ -18,7 +18,7 @@ public class SeeThroughController : MonoBehaviour
 
         if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity))
         {
-            if(hit.transform.gameObject.name != "Player"){
+            if(hit.transform.gameObject.tag != "Player"){
                 transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(4f,4f,4f), Time.deltaTime * 10);
             }
             else{
