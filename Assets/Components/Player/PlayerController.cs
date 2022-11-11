@@ -16,25 +16,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private float Jumpforce;
     [SerializeField] private bool isJumping;
+    [SerializeField] private bool useJoystick;
 
     [Header("Appearance Game Object")]
     [SerializeField] private GameObject maleGameObject;
     [SerializeField] private GameObject femaleGameObject;
 
     [Header("Appearance")]
-    public string gender ="female";
+    public string gender = "female";
+    public float explore = 0f;
     private string genderPrev;
 
-    void OnEnable() {
-      SceneManager.sceneLoaded += OnSceneLoaded;
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    
-    void OnDisable() {
+
+    void OnDisable()
+    {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-    
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+
         transform.localPosition = new Vector3(transform.localPosition.x, 4f, transform.localPosition.z);
     }
 
@@ -50,10 +55,42 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        float horizontal = (Application.platform == RuntimePlatform.Android) ? joystick.Horizontal : Input.GetAxis("Horizontal");
-        float vertical = (Application.platform == RuntimePlatform.Android) ? joystick.Vertical : Input.GetAxis("Vertical");
-        // float horizontal =  joystick.Horizontal ;
-        // float vertical = joystick.Vertical ;
+        float horizontal = 0f;
+        float vertical = 0f;
+
+        float mvhorizontal = 0f;
+        float mvvertical = 0f;
+
+        if (useJoystick)
+        {
+            horizontal = joystick.Horizontal;
+            vertical = joystick.Vertical;
+
+        }
+        else
+        {
+            horizontal = (Application.platform == RuntimePlatform.Android) ? joystick.Horizontal : Input.GetAxis("Horizontal");
+            vertical = (Application.platform == RuntimePlatform.Android) ? joystick.Vertical : Input.GetAxis("Vertical");
+        }
+
+
+        if (horizontal >= .2f)
+        {
+            mvhorizontal = 1f;
+        }
+        if (horizontal <= -.2f)
+        {
+            mvhorizontal = -1f;
+        }
+        if (vertical >= .2f)
+        {
+            mvvertical = 1f;
+        }
+        if (vertical <= -.2f)
+        {
+            mvvertical = -1f;
+        }
+
         Vector3 playerMovementInput = new Vector3(horizontal, 0f, vertical);
 
         if (playerMovementInput != Vector3.zero)
@@ -69,7 +106,8 @@ public class PlayerController : MonoBehaviour
         }
 
         PlayerBody.MovePosition(transform.position + (transform.forward * playerMovementInput.magnitude) * (Speed * (!Debug.isDebugBuild ? 1 : 2)) * Time.deltaTime);
-        animator.SetFloat("explore", (((horizontal != 0 ? horizontal : vertical != 0 ? vertical : 0)) * (!Debug.isDebugBuild ? 1 : 2)));
+        explore = ((mvhorizontal != 0 ? mvhorizontal : mvvertical != 0 ? mvvertical : 0));
+        animator.SetFloat("explore", explore);
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -98,7 +136,7 @@ public class PlayerController : MonoBehaviour
                 animator.avatar = femaleGameObject.GetComponent<Animator>().avatar;
                 femaleGameObject.transform.SetSiblingIndex(1);
             }
-            if(gender == "male")
+            if (gender == "male")
             {
                 maleGameObject.SetActive(true);
                 femaleGameObject.SetActive(false);
@@ -127,7 +165,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            Appearance();
+        Appearance();
         if (SceneManager.GetActiveScene().name == "AppearanceScene") { }
         else
         {

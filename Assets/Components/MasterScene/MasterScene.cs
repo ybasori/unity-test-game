@@ -4,19 +4,20 @@ using UnityEngine.SceneManagement;
 
 public class MasterScene : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Joystick joystick;
     private PlayerController playerController;
+    private GameObject playerGO;
 
     public void GoToAppearance()
     {
         SceneManager.LoadScene("AppearanceScene");
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        // SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
     public void GoToSample()
     {
         SceneManager.LoadScene("SampleScene");
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        // SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
     public void SetIsJumping()
     {
@@ -39,12 +40,14 @@ public class MasterScene : MonoBehaviour
 
         if (!GameObject.FindGameObjectWithTag("Player"))
         {
-            Instantiate(player);
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
-            if(joystick){
+            Instantiate(playerPrefab);
+        }
+        if(!playerGO){
+            playerGO = GameObject.FindGameObjectWithTag("Player");
+            playerController = playerGO.GetComponent<PlayerController>();
+        }
+        if(!playerController.joystick && joystick){
                 playerController.joystick=joystick;
-            }
         }
     }
 

@@ -159,6 +159,7 @@ MonoBehaviour:
   Speed: 5
   Jumpforce: 5
   isJumping: 0
+  useJoystick: 1
   maleGameObject: {fileID: 7815655821395848533}
   femaleGameObject: {fileID: 7815655821189966545}
   gender: female
