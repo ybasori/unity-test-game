@@ -12,32 +12,77 @@ public class AppearanceScript : MonoBehaviour
     [SerializeField] RectTransform MainOptions;
     [SerializeField] RectTransform GenderOptions;
     [SerializeField] RectTransform SkinOptions;
+    [SerializeField] RectTransform HairOptions;
+    [SerializeField] RectTransform EyesOptions;
+    [SerializeField] RectTransform ShirtOptions;
+    [SerializeField] RectTransform PantsOptions;
+    [SerializeField] RectTransform ShoesOptions;
     private RectTransform isOpen;
     private RectTransform isOpenPrev;
     private PlayerController playerController;
-    public void OnSkinThree()
+    private PlayerAppearanceController playerAppearanceController;
+    public void OnSkin(int value)
     {
-        isOpenChange = true;
-        isOpenPrev = isOpen;
-        isOpen = MainOptions;
+        playerAppearanceController.OnSkin(value);
     }
-    public void OnSkinTwo()
+    public void OnChangeHair(int value)
     {
-        isOpenChange = true;
-        isOpenPrev = isOpen;
-        isOpen = MainOptions;
+        playerAppearanceController.OnChangeColor("hair", value);
     }
-    public void OnSkinOne()
+    public void OnChangeEyes(int value)
     {
-        isOpenChange = true;
-        isOpenPrev = isOpen;
-        isOpen = MainOptions;
+        playerAppearanceController.OnChangeColor("eyes", value);
     }
-    public void OnOpenSkin()
+    public void OnChangeShirt(int value)
     {
+        playerAppearanceController.OnChangeColor("shirt", value);
+    }
+    public void OnChangeSleeveType(string value)
+    {
+        playerAppearanceController.OnChangeSleeveType(value);
+    }
+    public void OnChangePantsType(string value)
+    {
+        playerAppearanceController.OnChangePantsType(value);
+    }
+    public void OnChangePants(int value)
+    {
+        playerAppearanceController.OnChangeColor("pants", value);
+    }
+    public void OnChangeShoes(int value)
+    {
+        playerAppearanceController.OnChangeColor("shoes", value);
+    }
+    public void OnOpenMenuOption(string attribute)
+    {
+        RectTransform menuoption = null;
+        if (attribute == "skin")
+        {
+            menuoption = SkinOptions;
+        }
+        if (attribute == "hair")
+        {
+            menuoption = HairOptions;
+        }
+        if (attribute == "eyes")
+        {
+            menuoption = EyesOptions;
+        }
+        if (attribute == "shirt")
+        {
+            menuoption = ShirtOptions;
+        }
+        if (attribute == "pants")
+        {
+            menuoption = PantsOptions;
+        }
+        if (attribute == "shoes")
+        {
+            menuoption = ShoesOptions;
+        }
         isOpenChange = true;
         isOpenPrev = isOpen;
-        isOpen = SkinOptions;
+        isOpen = menuoption;
     }
     public void OnOpenGender()
     {
@@ -47,17 +92,11 @@ public class AppearanceScript : MonoBehaviour
     }
     public void OnGenderMale()
     {
-        isOpenChange = true;
-        isOpenPrev = isOpen;
-        isOpen = MainOptions;
-        playerController.gender = "male";
+        playerAppearanceController.OnChangeGender("male");
     }
     public void OnGenderFemale()
     {
-        isOpenChange = true;
-        isOpenPrev = isOpen;
-        isOpen = MainOptions;
-        playerController.gender = "female";
+        playerAppearanceController.OnChangeGender("female");
     }
     private void OpenOption(RectTransform rt)
     {
@@ -82,6 +121,17 @@ public class AppearanceScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(isOpen==MainOptions){
+                Application.Quit();
+            }
+            else{
+                isOpenChange = true;
+                isOpenPrev = isOpen;
+                isOpen = MainOptions;
+            }
+        }
         if (isOpenChange)
         {
 
@@ -111,9 +161,50 @@ public class AppearanceScript : MonoBehaviour
             {
                 CloseOption(SkinOptions);
             }
-            if (isOpen.anchoredPosition.x == posXOpen)
+
+            if (isOpen == HairOptions)
             {
-                Debug.Log("Opened");
+                OpenOption(HairOptions);
+            }
+            else
+            {
+                CloseOption(HairOptions);
+            }
+
+            if (isOpen == EyesOptions)
+            {
+                OpenOption(EyesOptions);
+            }
+            else
+            {
+                CloseOption(EyesOptions);
+            }
+
+            if (isOpen == ShirtOptions)
+            {
+                OpenOption(ShirtOptions);
+            }
+            else
+            {
+                CloseOption(ShirtOptions);
+            }
+
+            if (isOpen == PantsOptions)
+            {
+                OpenOption(PantsOptions);
+            }
+            else
+            {
+                CloseOption(PantsOptions);
+            }
+
+            if (isOpen == ShoesOptions)
+            {
+                OpenOption(ShoesOptions);
+            }
+            else
+            {
+                CloseOption(ShoesOptions);
             }
             if (t > 1f)
             {
@@ -151,6 +242,10 @@ public class AppearanceScript : MonoBehaviour
         if (playerController == null && GameObject.FindGameObjectWithTag("Player"))
         {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        }
+        if (playerAppearanceController == null && GameObject.FindGameObjectWithTag("Player"))
+        {
+            playerAppearanceController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAppearanceController>();
         }
     }
 }

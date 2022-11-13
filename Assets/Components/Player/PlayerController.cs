@@ -18,14 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isJumping;
     [SerializeField] private bool useJoystick;
 
-    [Header("Appearance Game Object")]
-    [SerializeField] private GameObject maleGameObject;
-    [SerializeField] private GameObject femaleGameObject;
-
-    [Header("Appearance")]
-    public string gender = "female";
+    [Header("Debug")]
     public float explore = 0f;
-    private string genderPrev;
 
     void OnEnable()
     {
@@ -63,9 +57,10 @@ public class PlayerController : MonoBehaviour
 
         if (useJoystick)
         {
-            horizontal = joystick.Horizontal;
-            vertical = joystick.Vertical;
-
+            if(joystick){
+                horizontal = joystick.Horizontal;
+                vertical = joystick.Vertical;
+            }
         }
         else
         {
@@ -123,33 +118,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Appearance()
-    {
-        if (gender != genderPrev)
-        {
-            genderPrev = gender;
-            if (gender == "female")
-            {
-                femaleGameObject.SetActive(true);
-                maleGameObject.SetActive(false);
-
-                animator.avatar = femaleGameObject.GetComponent<Animator>().avatar;
-                femaleGameObject.transform.SetSiblingIndex(1);
-            }
-            if (gender == "male")
-            {
-                maleGameObject.SetActive(true);
-                femaleGameObject.SetActive(false);
-                animator.avatar = maleGameObject.GetComponent<Animator>().avatar;
-                maleGameObject.transform.SetSiblingIndex(1);
-            }
-        }
-        else
-        {
-
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -165,7 +133,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Appearance();
         if (SceneManager.GetActiveScene().name == "AppearanceScene") { }
         else
         {

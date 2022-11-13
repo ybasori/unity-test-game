@@ -32,11 +32,12 @@ public class MasterScene : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {if (SceneManager.GetActiveScene().name != "AppearanceScene") { 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
+    }
 
         if (!GameObject.FindGameObjectWithTag("Player"))
         {
