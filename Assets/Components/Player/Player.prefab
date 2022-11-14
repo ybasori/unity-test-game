@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886be0c200b021e4e9a106b8c1ea5cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
   joystick: {fileID: 0}
   Speed: 5
   Jumpforce: 5
@@ -207,7 +206,7 @@ MonoBehaviour:
   ShoesMaterial: {fileID: 2100000, guid: c76ed98db79e0cc489be59539cd06086, type: 2}
   shirtSleeveType: short
   pantsType: long
-  gender: female
+  gender: male
 --- !u!1 &6969215277038154238
 GameObject:
   m_ObjectHideFlags: 0

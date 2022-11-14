@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AppearanceScript : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class AppearanceScript : MonoBehaviour
     private float posXOpen = 0f;
     private bool isOpenChange = false;
     private bool isFirstTime = true;
+    [SerializeField] private Button buttonClose;
     [SerializeField] RectTransform MainOptions;
     [SerializeField] RectTransform GenderOptions;
     [SerializeField] RectTransform SkinOptions;
@@ -21,6 +23,12 @@ public class AppearanceScript : MonoBehaviour
     private RectTransform isOpenPrev;
     private PlayerController playerController;
     private PlayerAppearanceController playerAppearanceController;
+    public void OnClose()
+    {
+        isOpenChange = true;
+        isOpenPrev = isOpen;
+        isOpen = MainOptions;
+    }
     public void OnSkin(int value)
     {
         playerAppearanceController.OnSkin(value);
@@ -123,14 +131,22 @@ public class AppearanceScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(isOpen==MainOptions){
+            if (isOpen == MainOptions)
+            {
                 Application.Quit();
             }
-            else{
+            else
+            {
                 isOpenChange = true;
                 isOpenPrev = isOpen;
                 isOpen = MainOptions;
             }
+        }
+        if(isOpen!= MainOptions){
+            buttonClose.gameObject.SetActive(true);
+        }
+        else{
+            buttonClose.gameObject.SetActive(false);
         }
         if (isOpenChange)
         {

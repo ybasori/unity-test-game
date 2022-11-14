@@ -14,6 +14,7 @@ public class MasterAds : MonoBehaviour
     [SerializeField] private string rewardedAdUnitId;
     [SerializeField] private Button buttonInterstitialAd;
     [SerializeField] private Button ButtonRewardedAds;
+    [SerializeField] private Button ButtonBannerAdsClose;
     
     public void HandleRewardedAdLoaded(object sender, EventArgs args)
     {
@@ -89,6 +90,8 @@ public class MasterAds : MonoBehaviour
 
         // Load the banner with the request.
         this.bannerView.LoadAd(request);
+        
+        this.ButtonBannerAdsClose.gameObject.SetActive(true);
     }
     
     private void OnCloseInterstitialAds(object sender, EventArgs args){
@@ -111,6 +114,10 @@ public class MasterAds : MonoBehaviour
     }
     public void ShowInterstitialAds(){
         this.interstitial.Show();
+    }
+
+    public void OnCloseAdsBanner(){
+        bannerView.Hide();
     }
 
 

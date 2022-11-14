@@ -1,24 +1,13 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MasterScene : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Joystick joystick;
+    [SerializeField] private GameObject PopUpMenu;
     private PlayerController playerController;
     private GameObject playerGO;
-
-    public void GoToAppearance()
-    {
-        SceneManager.LoadScene("AppearanceScene");
-        // SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-    }
-    public void GoToSample()
-    {
-        SceneManager.LoadScene("SampleScene");
-        // SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-    }
     public void SetIsJumping()
     {
         
@@ -32,12 +21,11 @@ public class MasterScene : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {if (SceneManager.GetActiveScene().name != "AppearanceScene") { 
+    {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            PopUpMenu.SetActive(true);
         }
-    }
 
         if (!GameObject.FindGameObjectWithTag("Player"))
         {
